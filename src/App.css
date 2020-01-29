@@ -1,0 +1,27 @@
+html,
+body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    background-color: black;
+}
+
+.container-fluid {
+    padding: 0 !important;
+}
+
+.channels-container {
+    /* background-color: red; */
+    position: relative;
+    padding-top: calc(56.25% - 56px);
+    /* 16:9 Aspect Ratio */
+}
+
+.channels-container-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: 'green';
+}

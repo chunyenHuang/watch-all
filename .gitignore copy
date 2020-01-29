@@ -1,0 +1,25 @@
+# dependencies
+**/node_modules/**
+client/package-lock.json
+server/package-lock.json
+package-lock.json
+
+# production
+**/build/**
+
+*.zip
+
+**/got-product-pipeline**
+
+*.log
+*.log.gz
+.*-audit.json
+
+deploy.sh
+
+.DS_Store
+
+server/src/modules/jsDoc/docs/*
+server/src/github/repos/*
+
+ngrok
