@@ -37,10 +37,17 @@ const App = () => {
               <NavLink href="#" active={mode === '3x3'} onClick={()=>changeMode('3x3')}>3x3</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="#" active={isEditing} onClick={edit}>Edit Video Links</NavLink>
+              <NavLink href="#" active={isEditing} onClick={edit}>編輯影片網址 Edit Video Links</NavLink>
+            </NavItem>
+            <NavbarText>
+              - 移動滑鼠播放聲音 Move your mouse over video to play the sound
+            </NavbarText>
+          </Nav>
+          <Nav navbar>
+            <NavItem>
+              <NavLink href="https://github.com/chunyenHuang/watch-all" target="_blank">Github</NavLink>
             </NavItem>
           </Nav>
-          <NavbarText>Github link</NavbarText>
         </Collapse>
       </Navbar>
       <div className="channels-container">
