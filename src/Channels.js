@@ -102,6 +102,8 @@ export default class Channels extends React.Component {
                     playing={true}
                     width='100%'
                     height='100%'
+                    controls={true}
+                    loop={true}
                   />
                 </div>
               </Col>
