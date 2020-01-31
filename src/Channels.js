@@ -11,43 +11,7 @@ import {
 
 import './Channels.css';
 
-const defaultChannels = [
-  'https://www.youtube.com/watch?v=RaIJ767Bj_M', // 東森
-  'https://www.youtube.com/watch?v=Hu1FkdAOws0', // TVBS
-  'https://www.youtube.com/watch?v=wUPPkSANpyo', // 中天
-  // 'https://www.youtube.com/watch?v=NbjI0cARzjQ', // 台視 not available
-  'https://www.youtube.com/watch?v=94wGQ2EFR98', // 中視
-  'https://www.youtube.com/watch?v=TL8mmew3jb8', // 華視
-  'https://www.youtube.com/watch?v=XxJKnDLYZz4', // 民視
-  'https://www.youtube.com/watch?v=4ZVUmEUFwaY', // 三立
-  'https://www.youtube.com/watch?v=MIQ_BlHmpgY', // 東森財經
-  'https://www.youtube.com/watch?v=9Auq9mYxFEE', // Sky News
-];
-
-class Channel {
-  constructor(url, index) {
-    this.id = index;
-    this.url = url;
-
-    this.isMuted = true;
-  }
-
-  update(url) {
-    this.url = url;
-
-    const cache = JSON.parse(localStorage.getItem('channels') || '{}');
-    cache[this.id] = this.url;
-    localStorage.setItem('channels', JSON.stringify(cache));
-  }
-
-  mute() {
-    this.isMuted = true;
-  }
-
-  unMute() {
-    this.isMuted = false;
-  }
-}
+const MOUSE_DELAY = 1000;
 
 let selectedChannelId;
 export default class Channels extends React.Component {
@@ -55,26 +19,28 @@ export default class Channels extends React.Component {
     selectedChannelId: null,
     channels: [],
   }
-  componentDidMount() {
-    let channels = defaultChannels;
-    let cache = localStorage.getItem('channels');
-    if (cache) {
-      cache = JSON.parse(cache);
-      channels = Object.keys(cache).map((key) => cache[key]);
-    } else {
-      cache = {};
-      defaultChannels.forEach((url, index) => {
-        cache[index] = url;
-      });
-      localStorage.setItem('channels', JSON.stringify(cache));
-    }
-    this.setState({
-      channels: channels.map((url, index) => new Channel(url, index)),
+  componentDidMount() {}
+
+  setChannelsSound(channel) {
+    selectedChannelId = channel.id;
+    this.props.channels.forEach((x) => {
+      if (x.id === selectedChannelId) {
+        x.unMute();
+      } else {
+        x.mute();
+      }
     });
+    this.setState({ selectedChannelId });
+  }
+
+  updateParentChannels() {
+    if (this.props.onChannelsUpdate) {
+      this.props.onChannelsUpdate(this.props.channels.map((x) => x.url));
+    }
   }
 
   render() {
-    const { mode, isEditing } = this.props;
+    const { mode, isEditing, channels } = this.props;
 
     let multiStyle;
     let columns;
@@ -92,27 +58,26 @@ export default class Channels extends React.Component {
     return (
       <Container className="channels-main">
         <Row className={multiStyle} stylee={{}}>
-          {this.state.channels
+          {channels
             .map((channel, index)=>(
               <Col
                 sm={12 / columns}
                 key={index}
                 onMouseEnter={()=>{
-                  selectedChannelId = channel.id;
-                  this.state.channels.forEach((x)=>{
-                    if (x.id === selectedChannelId) {
-                      x.unMute();
-                    } else {
-                      x.mute();
-                    }
-                  });
-                  this.setState({ selectedChannelId });
+                  channel.isHovered = true;
+                  if (!selectedChannelId) {
+                    this.setChannelsSound(channel);
+                  } else {
+                    setTimeout(() => {
+                      if (channel.isHovered) {
+                        this.setChannelsSound(channel);
+                      }
+                    }, MOUSE_DELAY);
+                  }
                 }}
-                // onMouseLeave={()=>{
-                //   selectedChannelId = channel.id;
-                //   channel.mute();
-                //   this.setState({ selectedChannelId });
-                // }}
+                onMouseLeave={()=>{
+                  channel.isHovered = false;
+                }}
               >
                 {isEditing &&
                   <div className="edit-container">
@@ -123,6 +88,7 @@ export default class Channels extends React.Component {
                         onChange={(event)=>{
                           channel.update(event.target.value);
                           this.setState({});
+                          this.updateParentChannels();
                         }}
                       />
                     </InputGroup>
