@@ -21,9 +21,12 @@ export default class Channels extends React.Component {
   }
   componentDidMount() {}
 
-  setChannelsSound(channel) {
+  setChannelsSound(channel = {}) {
+    const { channels } = this.props;
+
     selectedChannelId = channel.id;
-    this.props.channels.forEach((x) => {
+
+    channels.forEach((x) => {
       if (x.id === selectedChannelId) {
         x.unMute();
       } else {
@@ -40,7 +43,7 @@ export default class Channels extends React.Component {
   }
 
   render() {
-    const { mode, isEditing, channels } = this.props;
+    const { mode, isEditing, channels, mute } = this.props;
 
     let multiStyle;
     let columns;
@@ -55,59 +58,63 @@ export default class Channels extends React.Component {
       multiStyle = 'multi2x2';
     }
 
+    const renderCell = (channel, index) => {
+      const onMouseEnter = () => {
+        channel.isHovered = true;
+        if (!selectedChannelId) {
+          this.setChannelsSound(channel);
+        } else {
+          setTimeout(() => {
+            if (channel.isHovered) {
+              this.setChannelsSound(channel);
+            }
+          }, MOUSE_DELAY);
+        }
+      };
+      const onMouseLeave = () => {
+        channel.isHovered = false;
+      };
+      return (
+        <Col
+          sm={12 / columns}
+          key={index}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+        >
+          {isEditing &&
+            <div className="edit-container">
+              <InputGroup>
+                <Input
+                  placeholder="YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia, Mixcloud, and DailyMotion"
+                  value={channel.url}
+                  onChange={(event)=>{
+                    channel.update(event.target.value);
+                    this.setState({});
+                    this.updateParentChannels();
+                  }}
+                />
+              </InputGroup>
+            </div>}
+          <div className="video-wrapper">
+            <ReactPlayer
+              className="react-player"
+              url={channel.url}
+              volume={1}
+              muted={mute || channel.isMuted} // overwrite mute option
+              playing={true}
+              width='100%'
+              height='100%'
+              controls={true}
+              loop={true}
+            />
+          </div>
+        </Col>);
+    };
+
     return (
       <Container className="channels-main">
         <Row className={multiStyle} stylee={{}}>
-          {channels
-            .map((channel, index)=>(
-              <Col
-                sm={12 / columns}
-                key={index}
-                onMouseEnter={()=>{
-                  channel.isHovered = true;
-                  if (!selectedChannelId) {
-                    this.setChannelsSound(channel);
-                  } else {
-                    setTimeout(() => {
-                      if (channel.isHovered) {
-                        this.setChannelsSound(channel);
-                      }
-                    }, MOUSE_DELAY);
-                  }
-                }}
-                onMouseLeave={()=>{
-                  channel.isHovered = false;
-                }}
-              >
-                {isEditing &&
-                  <div className="edit-container">
-                    <InputGroup>
-                      <Input
-                        placeholder="YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia, Mixcloud, and DailyMotion"
-                        value={channel.url}
-                        onChange={(event)=>{
-                          channel.update(event.target.value);
-                          this.setState({});
-                          this.updateParentChannels();
-                        }}
-                      />
-                    </InputGroup>
-                  </div>}
-                <div className="video-wrapper">
-                  <ReactPlayer
-                    className="react-player"
-                    url={channel.url}
-                    volume={1}
-                    muted={channel.isMuted}
-                    playing={true}
-                    width='100%'
-                    height='100%'
-                    controls={true}
-                    loop={true}
-                  />
-                </div>
-              </Col>
-            ))}
+          {channels.map(renderCell)}
         </Row>
       </Container>
     );

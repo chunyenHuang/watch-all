@@ -1,5 +1,5 @@
 /* eslint-disable require-jsdoc */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Collapse,
   Navbar,
@@ -29,6 +29,8 @@ import {
   FaGithub,
   FaExclamationCircle,
   FaSave,
+  FaVolumeUp,
+  FaVolumeMute,
 } from 'react-icons/fa';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -52,6 +54,7 @@ const App = () => {
   const [currentListIndex, changeCurrentList] = useState(defaultListIndex);
   const [showSaveModal, setSaveModal] = useState(false);
   const [newListTitle, setNewListTitle] = useState(defaultList[defaultListIndex].title);
+  const [isMuted, toggleMute] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
   const edit = () => {
@@ -101,6 +104,14 @@ const App = () => {
     }
   };
 
+  useEffect(() => {
+    document.addEventListener('keydown', (event) => {
+      if (event.keyCode === 77) { // M
+        toggleMute(!isMuted);
+      }
+    }, false);
+  });
+
   return (
     <div className="main-container">
       <Modal isOpen={showSaveModal} autoFocus>
@@ -137,9 +148,8 @@ const App = () => {
             <NavItem>
               <NavLink href="#" active={isEditing} onClick={edit}>
                 {!isEditing?
-                  <><FaEdit />編輯 Edit</>
-                  :
-                  <><FaSave />儲存 Save</>
+                  <><FaEdit />編輯 Edit</>:
+                  <div className="blink" ><FaSave />儲存 Save</div>
                 }
               </NavLink>
             </NavItem>
@@ -166,6 +176,13 @@ const App = () => {
             </UncontrolledDropdown>
           </Nav>
           <Nav navbar>
+            <NavItem>
+              <NavLink href="#" active={isMuted} onClick={()=>toggleMute(!isMuted)}>
+                {isMuted?
+                  <FaVolumeMute className="blink"/>:<FaVolumeUp />
+                }
+              </NavLink>
+            </NavItem>
             <NavbarText>
               <FaExclamationCircle />
               移動滑鼠播放聲音 Move your mouse over video to play the sound
@@ -185,6 +202,7 @@ const App = () => {
             mode={mode}
             isEditing={isEditing}
             channels={currentChannels}
+            mute={isMuted}
           />
         </div>
       </div>

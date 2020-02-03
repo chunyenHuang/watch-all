@@ -30,3 +30,20 @@ body {
     margin-right: 10px;
     margin-top: -4.5px;
 }
+
+@keyframes blink {
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@-webkit-keyframes blink {
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.blink {
+    animation: blink 2s linear infinite;
+    -webkit-animation: blink 2s linear infinite;
+}
