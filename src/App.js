@@ -129,7 +129,7 @@ const App = () => {
       </Modal>
 
       <Navbar color="black" dark expand="md">
-        <NavbarBrand href="#">Watch All</NavbarBrand>
+        <NavbarBrand href="#">都看看</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
