@@ -1,5 +1,5 @@
 # 都看看
 
-[Live Site](http://watch-all.s3-website-us-east-1.amazonaws.com/)
+[Live Site](https://chunyenHuang.github.io/watch-all)
 
 ![Demoo](demo.png "Demo")
