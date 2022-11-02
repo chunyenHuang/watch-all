@@ -19,7 +19,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "eslint": "^6.8.0",
-    "eslint-config-google": "^0.14.0"
+    "eslint-config-google": "^0.14.0",
+    "gh-pages": "^2.2.0"
   }
 }

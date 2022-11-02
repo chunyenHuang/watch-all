@@ -11,7 +11,7 @@ export default [{
     'https://www.youtube.com/watch?v=as1ZQ0t3Kdg', // CBS
     'https://www.youtube.com/watch?v=B7Zp3d6xXWw', // 寰宇
     // 'https://www.youtube.com/watch?v=NbjI0cARzjQ', // 台視 not available
-    // 'https://www.youtube.com/watch?v=TL8mmew3jb8', // 華視 
+    // 'https://www.youtube.com/watch?v=TL8mmew3jb8', // 華視
     // 'https://www.youtube.com/watch?v=MIQ_BlHmpgY', // 東森財經
   ],
 }, {
