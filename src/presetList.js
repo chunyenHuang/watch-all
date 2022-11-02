@@ -21,7 +21,7 @@ export default [{
     'https://www.youtube.com/watch?v=DCiUhrxnOjI',
     'https://www.youtube.com/watch?v=W86cTIoMv2U',
     'https://www.youtube.com/watch?v=BZC2nWJblhk',
-    'https://www.youtube.com/watch?v=rsRj5Eymjxw',
+    'https://www.youtube.com/watch?v=WMTeRLCFKzM',
     'https://www.youtube.com/watch?v=qeUM1WDoOGY',
     'https://www.youtube.com/watch?v=K83BKNxgg7w',
     'https://www.youtube.com/watch?v=Yhj5gjcY77I',
