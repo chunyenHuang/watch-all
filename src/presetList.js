@@ -1,16 +1,18 @@
 export default [{
   title: '新聞 News',
   channels: [
-    'https://www.youtube.com/watch?v=RaIJ767Bj_M', // 東森
-    'https://www.youtube.com/watch?v=Hu1FkdAOws0', // TVBS
-    'https://www.youtube.com/watch?v=wUPPkSANpyo', // 中天
-    // 'https://www.youtube.com/watch?v=NbjI0cARzjQ', // 台視 not available
-    'https://www.youtube.com/watch?v=94wGQ2EFR98', // 中視
-    'https://www.youtube.com/watch?v=TL8mmew3jb8', // 華視
-    'https://www.youtube.com/watch?v=XxJKnDLYZz4', // 民視
-    'https://www.youtube.com/watch?v=4ZVUmEUFwaY', // 三立
-    'https://www.youtube.com/watch?v=MIQ_BlHmpgY', // 東森財經
+    'https://www.youtube.com/watch?v=R2iMq5LKXco', // 東森
+    'https://www.youtube.com/watch?v=EB4g7wecgTI', // 三立
+    'https://www.youtube.com/watch?v=_QbRXRnHMVY', // 中天
     'https://www.youtube.com/watch?v=9Auq9mYxFEE', // Sky News
+    'https://www.youtube.com/watch?v=2mCSYvcfhtc', // TVBS
+    'https://www.youtube.com/watch?v=TCnaIE_SAtM', // 中視
+    'https://www.youtube.com/watch?v=ylYJSBUgaMA', // 民視
+    'https://www.youtube.com/watch?v=as1ZQ0t3Kdg', // CBS
+    'https://www.youtube.com/watch?v=B7Zp3d6xXWw', // 寰宇
+    // 'https://www.youtube.com/watch?v=NbjI0cARzjQ', // 台視 not available
+    // 'https://www.youtube.com/watch?v=TL8mmew3jb8', // 華視 
+    // 'https://www.youtube.com/watch?v=MIQ_BlHmpgY', // 東森財經
   ],
 }, {
   title: '貓科 Felidae',
