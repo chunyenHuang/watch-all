@@ -5,7 +5,7 @@ export default [{
     'https://www.youtube.com/watch?v=ylYJSBUgaMA', // 民視
     'https://www.youtube.com/watch?v=5uAUgdJnb70', // 華視
 
-    'https://www.youtube.com/watch?v=KH4UqpmfCWA', // 中天
+    'https://www.youtube.com/watch?v=oIgbl7t0S_w', // 中天
     'https://www.youtube.com/watch?v=TCnaIE_SAtM', // 中視
     'https://www.youtube.com/watch?v=t4ZCPx79g7U', // 中時
 
