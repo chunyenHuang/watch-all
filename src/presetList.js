@@ -1,7 +1,7 @@
 export default [{
   title: '新聞 News',
   channels: [
-    'https://www.youtube.com/watch?v=6lodiGmZTgs', // 三立
+    'https://www.youtube.com/watch?v=PiA-4Ck61KA', // 三立
     'https://www.youtube.com/watch?v=ylYJSBUgaMA', // 民視
     'https://www.youtube.com/watch?v=5uAUgdJnb70', // 華視
 
