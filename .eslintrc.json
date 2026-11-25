@@ -36,13 +36,17 @@
     "jest": true
   },
   "parserOptions": {
-    "ecmaVersion": 2017,
+    "ecmaVersion": 2020,
     "sourceType": "module",
+    "requireConfigFile": false,
     "ecmaFeatures": {
       "jsx": true
+    },
+    "babelOptions": {
+      "presets": ["@babel/preset-react"]
     }
   },
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "globals": {
     "localStorage": true,
     "document": true

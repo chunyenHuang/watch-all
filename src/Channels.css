@@ -1,23 +1,27 @@
 .channels-main {
-    max-width: calc((100vh - 56px) * 16 / 9);
+    width: min(100cqw, calc(100cqh * var(--cols) * 16 / (var(--rows) * 9)));
+    aspect-ratio: calc(var(--cols) * 16 / (var(--rows) * 9));
+    max-width: 100%;
+    max-height: 100%;
 }
 
-.multi2x2>div {
-    padding: 0;
-    margin: 0;
-    height: calc((100vh - 56px) / 2);
+.channels-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    grid-template-rows: repeat(var(--rows), minmax(0, 1fr));
+    width: 100%;
+    height: 100%;
 }
 
-.multi3x3>div {
-    padding: 0;
-    margin: 0;
-    height: calc((100vh - 56px) / 3);
+.channel-cell {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
 }
 
 .video-wrapper {
-    position: relative;
-    padding-top: 56.25%
-        /* Player ratio: 100 / (1280 / 720) */
+    position: absolute;
+    inset: 0;
 }
 
 .react-player {
@@ -26,8 +30,8 @@
     left: 0;
 }
 
-
-.edit-container {
-    padding: 16px 32px;
-    background-color: black;
+.video-shield {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
 }

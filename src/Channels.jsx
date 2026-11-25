@@ -1,15 +1,14 @@
 /* eslint-disable require-jsdoc */
 import React from 'react';
-import ReactPlayer from 'react-player';
-import {
-  Container,
-  Row,
-  Col,
-  InputGroup,
-  Input,
-} from 'reactstrap';
+import ReactPlayerImport from 'react-player';
 
 import './Channels.css';
+
+// react-player 2 is CommonJS. Vite's interop sometimes exposes the module
+// object instead of the component, so accept either shape.
+const ReactPlayer = typeof ReactPlayerImport === 'function' ?
+  ReactPlayerImport :
+  ReactPlayerImport.default;
 
 const MOUSE_DELAY = 1000;
 
@@ -18,7 +17,7 @@ export default class Channels extends React.Component {
   state = {
     selectedChannelId: null,
     channels: [],
-  }
+  };
   componentDidMount() {}
 
   setChannelsSound(channel = {}) {
@@ -36,27 +35,12 @@ export default class Channels extends React.Component {
     this.setState({ selectedChannelId });
   }
 
-  updateParentChannels() {
-    if (this.props.onChannelsUpdate) {
-      this.props.onChannelsUpdate(this.props.channels.map((x) => x.url));
-    }
-  }
-
   render() {
-    const { mode, isEditing, channels, mute } = this.props;
+    const { mode, channels, mute, showControls, onPlayback } = this.props;
 
-    let multiStyle;
-    let columns;
-    switch (mode) {
-    case '3x3':
-      columns = 3;
-      multiStyle = 'multi3x3';
-      break;
-    case '2x2':
-    default:
-      columns = 2;
-      multiStyle = 'multi2x2';
-    }
+    const columns = mode === '3x3' ? 3 : 2;
+    const rows = mode === '3x3' ? 3 : 2;
+    const visibleChannels = channels.slice(0, columns * rows);
 
     const renderCell = (channel, index) => {
       const onMouseEnter = () => {
@@ -75,28 +59,15 @@ export default class Channels extends React.Component {
         channel.isHovered = false;
       };
       return (
-        <Col
-          sm={12 / columns}
+        <div
+          className="channel-cell"
           key={index}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
         >
-          {isEditing &&
-            <div className="edit-container">
-              <InputGroup>
-                <Input
-                  placeholder="YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia, Mixcloud, and DailyMotion"
-                  value={channel.url}
-                  onChange={(event)=>{
-                    channel.update(event.target.value);
-                    this.setState({});
-                    this.updateParentChannels();
-                  }}
-                />
-              </InputGroup>
-            </div>}
           <div className="video-wrapper">
             <ReactPlayer
+              key={`${channel.id}:${channel.url}:${showControls ? 'controls' : 'plain'}`}
               className="react-player"
               url={channel.url}
               volume={1}
@@ -104,19 +75,38 @@ export default class Channels extends React.Component {
               playing={true}
               width='100%'
               height='100%'
-              controls={true}
+              controls={showControls}
               loop={true}
+              config={{
+                youtube: {
+                  playerVars: {
+                    controls: showControls ? 1 : 0,
+                    disablekb: showControls ? 0 : 1,
+                    fs: showControls ? 1 : 0,
+                    modestbranding: 1,
+                  },
+                },
+              }}
+              onReady={() => onPlayback && onPlayback(channel.url, true)}
+              onError={() => onPlayback && onPlayback(channel.url, false)}
             />
+            {showControls ? null : <div className="video-shield" />}
           </div>
-        </Col>);
+        </div>);
     };
 
     return (
-      <Container className="channels-main">
-        <Row className={multiStyle} stylee={{}}>
-          {channels.map(renderCell)}
-        </Row>
-      </Container>
+      <div
+        className="channels-main"
+        style={{
+          '--cols': columns,
+          '--rows': rows,
+        }}
+      >
+        <div className="channels-grid">
+          {visibleChannels.map(renderCell)}
+        </div>
+      </div>
     );
   }
 }
