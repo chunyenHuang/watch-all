@@ -22,7 +22,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.28.6",
     "@babel/preset-react": "^7.28.5",
-    "@vitejs/plugin-react": "^5.2.0",
+    "@vitejs/plugin-react": "^6.3.0",
     "eslint": "^8.57.1",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-react": "^7.37.5",
