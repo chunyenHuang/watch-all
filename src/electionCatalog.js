@@ -1,7 +1,8 @@
 /* eslint-disable require-jsdoc */
-import csvText from './data/taiwan-2026-election-streams.csv?raw';
+import csvText from './data/taiwan-2026-election-one-stream-per-outlet.csv?raw';
 
 const CUSTOM_KEY = 'electionCatalogCustom';
+const isTruthy = (value) => /^(true|1|yes)$/i.test(String(value || '').trim());
 
 export function parseElectionCsv(text) {
   const rows = [];
@@ -60,6 +61,8 @@ export function parseElectionCsv(text) {
       notes,
       streamType: record.stream_type || 'news_fallback',
       custom: false,
+      isDefault: isTruthy(record.default),
+      sortIndex: index,
       available: url.startsWith('http') && videoId.length > 0 && iframe.startsWith('http'),
     };
   }).sort((a, b) => a.name.localeCompare(b.name, 'zh-Hant'));
@@ -67,29 +70,21 @@ export function parseElectionCsv(text) {
 
 export const builtinItems = parseElectionCsv(csvText);
 
-const isYouTubeUrl = (url) => /(?:youtube\.com|youtu\.be)/i.test(url);
-
-export function pickOnePerStation(items, failedUrls = {}) {
-  const chosen = [];
-  const seen = new Set();
-  items.forEach((item) => {
-    if (chosen.length >= 9 || !item || seen.has(item.name)) return;
-    seen.add(item.name);
-    const candidates = items.filter((other) => (
-      other.name === item.name &&
-      other.available &&
-      other.url &&
-      !failedUrls[other.url]
-    ));
-    if (!candidates.length) return;
-    const youtube = candidates.find((other) => isYouTubeUrl(other.url));
-    chosen.push(youtube || candidates[0]);
-  });
-  return chosen;
+export function defaultLaunchItems(items = builtinItems, failedUrls = {}) {
+  return items
+    .filter((item) => (
+      item &&
+      item.isDefault &&
+      item.available &&
+      item.url &&
+      !failedUrls[item.url]
+    ))
+    .sort((a, b) => a.sortIndex - b.sortIndex)
+    .slice(0, 9);
 }
 
 export function defaultGridUrls() {
-  const picked = pickOnePerStation(builtinItems);
+  const picked = defaultLaunchItems(builtinItems);
   return Array.from({ length: 9 }, (_, index) => (
     picked[index] ? picked[index].url : ''
   ));

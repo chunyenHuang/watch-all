@@ -29,6 +29,7 @@ import CatalogPanel from './CatalogPanel';
 import {
   builtinItems,
   defaultGridUrls,
+  defaultLaunchItems,
   loadCustomItems,
   saveCustomItems,
 } from './electionCatalog';
@@ -144,9 +145,10 @@ const App = () => {
   };
 
   const autoPlace = () => {
-    const chosen = catalogItems.filter((item) => (
-      item.available && item.url && !failedUrls[item.url]
-    )).slice(0, 9);
+    const usable = (item) => item.available && item.url && !failedUrls[item.url];
+    const defaults = defaultLaunchItems(catalogItems, failedUrls);
+    const rest = catalogItems.filter((item) => !item.isDefault && usable(item));
+    const chosen = defaults.concat(rest).slice(0, 9);
     if (!chosen.length) return;
     currentChannels = Array.from({ length: 9 }, (_, index) => (
       new Channel(chosen[index] ? chosen[index].url : '', index)
